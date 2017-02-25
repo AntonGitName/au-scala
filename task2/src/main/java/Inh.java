@@ -2,14 +2,14 @@
  * @author antonpp
  * @since 25/02/2017
  */
-public class Inh extends Base {
+public class Inh implements Base {
 
     public static void run() {
         InhHolder.instance.run();
     }
 
     public int goo() {
-        return Base.goo(this);
+        return BaseStatic.goo(this);
     }
 
     public int x() {
@@ -23,7 +23,7 @@ public class Inh extends Base {
     private int y_lazy_getter() {
         synchronized (this) {
             if (!bitmap$0) {
-                y = Base.y(this);
+                y = BaseStatic.y(this);
                 bitmap$0 = true;
             }
         }
@@ -39,7 +39,7 @@ public class Inh extends Base {
     }
 
     public Inh() {
-        Base.init(this);
+        BaseStatic.init(this);
     }
 
     private int x;

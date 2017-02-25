@@ -4,14 +4,12 @@
  */
 public class InhHolder implements Runnable {
 
-    public static InhHolder instance;
+    public static final InhHolder instance;
 
-    private InhHolder() {
-        instance = this;
-    }
+    private InhHolder() {}
 
     static {
-        new InhHolder();
+        instance = new InhHolder();
     }
 
     public void run() {
