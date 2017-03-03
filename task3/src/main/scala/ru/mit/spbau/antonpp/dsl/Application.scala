@@ -11,10 +11,10 @@ import ru.mit.spbau.antonpp.dsl.ImplicitDateBuilder._
 object Application {
     def main(args: Array[String]): Unit = {
         println(1000.usd to rub)
-        println(1000.usd to rub on 1 -- 1 -- 2010)
-        println(1000.usd to rub on 1 -- 1 -- 1000)
+        println(1000.usd to rub on 1--1--2010)
+        println(1000.usd to rub on 1--1--1000)
         println(1000.jpy to eur)
-        println(1.rub to gbp on 1 -- 1 -- 2005)
-        println(1.rub to gbp on 1 -- 1 -- 2014)
+        println(1.rub to gbp on 1--1--2005)
+        println(1.rub to gbp on 1--1--2014)
     }
 }
