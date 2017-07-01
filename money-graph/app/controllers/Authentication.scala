@@ -1,20 +1,21 @@
 package controllers
 
-import play.api._
-import play.api.mvc._
-import play.api.data._
-import play.api.data.Forms._
-import views._
-import models.User
+import javax.inject.Inject
 
-object Authentication extends Controller {
+import models.{User, UserDao}
+import play.api.data.Forms._
+import play.api.data._
+import play.api.mvc._
+import views._
+
+class Authentication @Inject() (cc: ControllerComponents, dao : UserDao) extends AbstractController(cc) {
 
     val loginForm = Form(
         tuple(
             "email" -> text,
             "password" -> text
         ) verifying ("Invalid email or password", result => result match {
-            case (email, password) => User.authenticate(email, password).isDefined
+            case (email, password) => dao.authenticate(email, password).isDefined
         })
     )
 
