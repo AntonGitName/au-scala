@@ -10,22 +10,22 @@ import play.api.db.Database
   * @author Anton Mordberg
   * @since 02.07.17
   */
-class UserDao @Inject() (db: Database) {
+class AccountDao @Inject()(db: Database) {
     /**
       * Parse a User from a ResultSet
       */
-    val simple: RowParser[User] = {
+    val simple: RowParser[Account] = {
         get[String]("user.email") ~
             get[String]("user.name") ~
             get[String]("user.password") map {
-            case email ~ name ~ password => User(email, name, password)
+            case email ~ name ~ password => Account(email, name, password)
         }
     }
 
     /**
       * Retrieve a User from email.
       */
-    def findByEmail(email: String): Option[User] = {
+    def findByEmail(email: String): Option[Account] = {
         db.withConnection { implicit connection =>
             SQL("select * from user where email = {email}").on(
                 'email -> email).as(simple.singleOpt)
@@ -35,7 +35,7 @@ class UserDao @Inject() (db: Database) {
     /**
       * Retrieve all users.
       */
-    def findAll: Seq[User] = {
+    def findAll: Seq[Account] = {
         db.withConnection { implicit connection =>
             SQL("select * from user").as(simple *)
         }
@@ -44,7 +44,7 @@ class UserDao @Inject() (db: Database) {
     /**
       * Authenticate a User.
       */
-    def authenticate(email: String, password: String): Option[User] = {
+    def authenticate(email: String, password: String): Option[Account] = {
         db.withConnection { implicit connection =>
             SQL(
                 """
@@ -59,7 +59,7 @@ class UserDao @Inject() (db: Database) {
     /**
       * Create a User.
       */
-    def create(user: User): User = {
+    def create(user: Account): Account = {
         db.withConnection { implicit connection =>
             SQL(
                 """

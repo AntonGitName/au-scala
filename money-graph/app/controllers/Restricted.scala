@@ -3,11 +3,11 @@ package controllers
 import javax.inject.Inject
 
 import play.api.mvc.{AbstractController, Controller, ControllerComponents}
-import models.{User, UserDao}
+import models.{Account, AccountDao}
 import play.api.db.Database
 import views._
 
-class Restricted @Inject() (cc: ControllerComponents, dao : UserDao) extends AbstractController(cc)  with Secured {
+class Restricted @Inject() (cc: ControllerComponents, dao : AccountDao) extends AbstractController(cc)  with Secured {
 
     /**
       * Display restricted area only if user is logged in.

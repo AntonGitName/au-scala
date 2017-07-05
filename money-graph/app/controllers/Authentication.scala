@@ -2,13 +2,13 @@ package controllers
 
 import javax.inject.Inject
 
-import models.{User, UserDao}
+import models.{Account, AccountDao}
 import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc._
 import views._
 
-class Authentication @Inject() (cc: ControllerComponents, dao : UserDao) extends AbstractController(cc) {
+class Authentication @Inject() (cc: ControllerComponents, dao : AccountDao) extends AbstractController(cc) {
 
     val loginForm = Form(
         tuple(
