@@ -12,66 +12,66 @@ import play.api.db.Database
   */
 class AccountDao @Inject()(db: Database) {
     /**
-      * Parse a User from a ResultSet
+      * Parse an Account from a ResultSet
       */
     val simple: RowParser[Account] = {
-        get[String]("user.email") ~
-            get[String]("user.name") ~
-            get[String]("user.password") map {
+        get[String]("accounts.email") ~
+                get[String]("accounts.name") ~
+                get[String]("accounts.password") map {
             case email ~ name ~ password => Account(email, name, password)
         }
     }
 
     /**
-      * Retrieve a User from email.
+      * Retrieve an Account from email.
       */
     def findByEmail(email: String): Option[Account] = {
         db.withConnection { implicit connection =>
-            SQL("select * from user where email = {email}").on(
+            SQL("select * from accounts where email = {email}").on(
                 'email -> email).as(simple.singleOpt)
         }
     }
 
     /**
-      * Retrieve all users.
+      * Retrieve all accounts.
       */
     def findAll: Seq[Account] = {
         db.withConnection { implicit connection =>
-            SQL("select * from user").as(simple *)
+            SQL("select * from accounts").as(simple *)
         }
     }
 
     /**
-      * Authenticate a User.
+      * Authenticate an Account.
       */
     def authenticate(email: String, password: String): Option[Account] = {
         db.withConnection { implicit connection =>
             SQL(
                 """
-         select * from user where
+         select * from accounts where
          email = {email} and password = {password}
-        """).on(
+                """).on(
                 'email -> email,
                 'password -> password).as(simple.singleOpt)
         }
     }
 
     /**
-      * Create a User.
+      * Create an Account.
       */
-    def create(user: Account): Account = {
+    def create(accounts: Account): Account = {
         db.withConnection { implicit connection =>
             SQL(
                 """
-          insert into user values (
+          insert into accounts values (
             {email}, {name}, {password}
           )
-        """).on(
-                'email -> user.email,
-                'name -> user.name,
-                'password -> user.password).executeUpdate()
+                """).on(
+                'email -> accounts.email,
+                'name -> accounts.name,
+                'password -> accounts.password).executeUpdate()
 
-            user
+            accounts
 
         }
     }

@@ -1,6 +1,6 @@
 --- Initial DB schema for identity management
 
---- !Ups
+# --- !Ups
 
 create table accounts (
   email                     varchar(255) not null primary key,
@@ -8,6 +8,6 @@ create table accounts (
   password                  varchar(255) not null
 );
 
---- !Downs
+# --- !Downs
 
 drop table if exists accounts;
