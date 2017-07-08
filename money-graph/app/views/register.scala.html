@@ -1,0 +1,35 @@
+@(form: Form[(String,String,String)])(implicit flash: Flash)
+
+@main("Welcome to Play! Login Sample - Restricted Area") {
+
+    <h1>Register</h1>
+
+    <p>Please type in your email and a new password.</p>
+
+    @helper.form(routes.Authentication.createAccount()) {
+
+        @form.globalError.map { error =>
+            <p class="error">
+                @error.message
+            </p>
+        }
+
+        @flash.get("success").map { message =>
+            <p class="success">
+                @message
+            </p>
+        }
+        <p>
+            <input type="email" name="email" placeholder="Email" id="email" value="@form("email").value">
+        </p>
+        <p>
+            <input type="text" name="name" id="name" placeholder="name">
+        </p>
+        <p>
+            <input type="password" name="password" id="password" placeholder="Password">
+        </p>
+        <p>
+            <button type="submit" id="registerbutton">Register</button>
+        </p>
+    }
+}
