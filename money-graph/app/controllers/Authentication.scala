@@ -12,10 +12,10 @@ class Authentication @Inject() (cc: ControllerComponents, dao : AccountDao) exte
 
     val loginForm = Form(
         tuple(
-            "email" -> text,
-            "password" -> text
-        ) verifying ("Invalid email or password", result => result match {
-            case (email, password) => dao.authenticate(email, password).isDefined
+            "email" -> email,
+            "password" -> nonEmptyText
+        ) verifying ("Invalid email or password", {
+            case (mail, password) => dao.authenticate(mail, password).isDefined
         })
     )
 
@@ -30,7 +30,7 @@ class Authentication @Inject() (cc: ControllerComponents, dao : AccountDao) exte
       * Logout and clean the session.
       */
     def logout = Action {
-        Redirect(routes.Authentication.login).withNewSession.flashing(
+        Redirect(routes.Authentication.login()).withNewSession.flashing(
             "success" -> "You've been logged out"
         )
     }
@@ -41,7 +41,7 @@ class Authentication @Inject() (cc: ControllerComponents, dao : AccountDao) exte
     def authenticate = Action { implicit request =>
         loginForm.bindFromRequest.fold(
             formWithErrors => BadRequest(html.login(formWithErrors)),
-            user => Redirect(routes.Restricted.index()).withSession("email" -> user._1)
+            account => Redirect(routes.Restricted.index()).withSession("email" -> account._1)
         )
     }
 
