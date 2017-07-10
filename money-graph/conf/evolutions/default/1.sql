@@ -3,11 +3,12 @@
 # --- !Ups
 
 create table accounts (
-  email                     varchar(255) not null primary key,
-  name                      varchar(255) not null,
-  password                  varchar(255) not null
+  id              SERIAL        PRIMARY KEY NOT NULL,
+  email           TEXT          UNIQUE      NOT NULL,
+  name            TEXT                      NOT NULL,
+  password        TEXT                      NOT NULL
 );
 
 # --- !Downs
 
-drop table if exists accounts;
+DROP TABLE IF EXISTS accounts CASCADE;

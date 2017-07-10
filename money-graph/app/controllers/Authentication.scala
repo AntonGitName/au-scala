@@ -76,7 +76,7 @@ class Authentication @Inject() (cc: ControllerComponents, dao : AccountDao) exte
             },
             account => {
                 logger.debug("Creating new account for " + account._1)
-                dao.create(Account(account._1, account._2, account._3))
+                dao.create(account._1, account._2, account._3)
                 Redirect(routes.Restricted.index()).withSession("email" -> account._1)
             }
         )

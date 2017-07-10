@@ -11,16 +11,6 @@ import play.api.db.Database
   * @since 02.07.17
   */
 class AccountDao @Inject()(db: Database) {
-    /**
-      * Parse an Account from a ResultSet
-      */
-    val simple: RowParser[Account] = {
-        get[String]("accounts.email") ~
-                get[String]("accounts.name") ~
-                get[String]("accounts.password") map {
-            case email ~ name ~ password => Account(email, name, password)
-        }
-    }
 
     /**
       * Retrieve an Account from email.
@@ -28,7 +18,7 @@ class AccountDao @Inject()(db: Database) {
     def findByEmail(email: String): Option[Account] = {
         db.withConnection { implicit connection =>
             SQL("select * from accounts where email = {email}").on(
-                'email -> email).as(simple.singleOpt)
+                'email -> email).as(AccountDao.simple.singleOpt)
         }
     }
 
@@ -37,7 +27,7 @@ class AccountDao @Inject()(db: Database) {
       */
     def findAll: Seq[Account] = {
         db.withConnection { implicit connection =>
-            SQL("select * from accounts").as(simple *)
+            SQL("select * from accounts").as(AccountDao.simple *)
         }
     }
 
@@ -52,28 +42,38 @@ class AccountDao @Inject()(db: Database) {
          email = {email} and password = {password}
                 """).on(
                 'email -> email,
-                'password -> password).as(simple.singleOpt)
+                'password -> password).as(AccountDao.simple.singleOpt)
         }
     }
 
     /**
       * Create an Account.
       */
-    def create(accounts: Account): Account = {
+    def create(email: String, name: String, password: String) = {
         db.withConnection { implicit connection =>
             SQL(
                 """
-          insert into accounts values (
-            {email}, {name}, {password}
-          )
+          insert into accounts (email, name, password)
+          values ( {email}, {name}, {password} )
                 """).on(
-                'email -> accounts.email,
-                'name -> accounts.name,
-                'password -> accounts.password).executeUpdate()
-
-            accounts
+                'email -> email,
+                'name -> name,
+                'password -> password).executeUpdate()
 
         }
     }
+}
 
+object AccountDao {
+    /**
+      * Parse an Account from a ResultSet
+      */
+    val simple: RowParser[Account] = {
+        get[Int]("accounts.id") ~
+                get[String]("accounts.email") ~
+                get[String]("accounts.name") ~
+                get[String]("accounts.password") map {
+            case id ~ email ~ name ~ password => Account(id, email, name, password)
+        }
+    }
 }
