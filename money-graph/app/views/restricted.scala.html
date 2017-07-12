@@ -7,8 +7,9 @@
     <p>You are logged in as @user.name / @user.email</p>
 
     <ul>
-        <li><a href="@routes.Authentication.logout">Logout</a></li>
-        <li><a href="@routes.Restricted.index">Restricted Area</a></li>
+        <li><a href="@routes.AuthenticationController.logout">Logout</a></li>
+        @*<li><a href="@routes.EventController.view">View events</a></li>*@
+        <li><a href="@routes.EventsController.create">Create new Event</a></li>
     </ul>
 
 }

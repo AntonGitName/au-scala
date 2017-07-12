@@ -9,9 +9,9 @@ import play.api.data._
 import play.api.mvc._
 import views._
 
-class Authentication @Inject() (cc: ControllerComponents, dao : AccountDao) extends AbstractController(cc) {
+class AuthenticationController @Inject()(cc: ControllerComponents, dao : AccountDao) extends AbstractController(cc) {
 
-    val logger: Logger = Logger(this.getClass())
+    val logger: Logger = Logger(this.getClass)
 
     val loginForm = Form(
         tuple(
@@ -32,8 +32,8 @@ class Authentication @Inject() (cc: ControllerComponents, dao : AccountDao) exte
     /**
       * Logout and clean the session.
       */
-    def logout = Action {
-        Redirect(routes.Authentication.login).withNewSession.flashing(
+    def logout = Action { implicit request =>
+        Redirect(routes.AuthenticationController.login).withNewSession.flashing(
             "success" -> "You've been logged out"
         )
     }

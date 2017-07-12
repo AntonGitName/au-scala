@@ -6,11 +6,15 @@
 GET     /                           controllers.Application.index
 
 # Authentication
-GET     /login                      controllers.Authentication.login
-POST    /login                      controllers.Authentication.authenticate
-GET     /logout                     controllers.Authentication.logout
-GET     /register                   controllers.Authentication.register
-POST    /register                   controllers.Authentication.createAccount
+GET     /login                      controllers.AuthenticationController.login
+POST    /login                      controllers.AuthenticationController.authenticate
+GET     /logout                     controllers.AuthenticationController.logout
+GET     /register                   controllers.AuthenticationController.register
+POST    /register                   controllers.AuthenticationController.createAccount
+
+# Event
+GET     /create-event                   controllers.EventsController.create
+POST    /create-event                   controllers.EventsController.createEvent
 
 # Restricted content
 GET     /restricted                 controllers.Restricted.index

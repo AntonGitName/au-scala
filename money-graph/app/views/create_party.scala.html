@@ -1,0 +1,33 @@
+@(form: Form[(String)])(implicit flash: Flash, request: RequestHeader)
+
+@main("Welcome to Play! Login Sample - Restricted Area") {
+
+    <h1>Play! Login Sample - Login</h1>
+
+    <p>Please provide a short description for the new event</p>
+
+    @helper.form(routes.EventsController.createEvent()) {
+
+        @helper.CSRF.formField
+
+        @form.globalError.map { error =>
+            <p class="error">
+                @error.message
+            </p>
+        }
+
+        @flash.get("success").map { message =>
+            <p class="success">
+                @message
+            </p>
+        }
+
+        <p>
+            <input type="text" name="text" placeholder="Description" value="@form("description").value">
+        </p>
+        <p>
+            <button type="submit" id="createEventButton">Create</button>
+        </p>
+
+    }
+}

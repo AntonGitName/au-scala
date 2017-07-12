@@ -1,4 +1,4 @@
-@(form: Form[(String,String,String)])(implicit flash: Flash)
+@(form: Form[(String,String,String)])(implicit flash: Flash, request: RequestHeader)
 
 @main("Welcome to Play! Login Sample - Restricted Area") {
 
@@ -6,7 +6,9 @@
 
     <p>Please type in your email and a new password.</p>
 
-    @helper.form(routes.Authentication.createAccount()) {
+    @helper.form(routes.AuthenticationController.createAccount()) {
+
+        @helper.CSRF.formField
 
         @form.globalError.map { error =>
             <p class="error">

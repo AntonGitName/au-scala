@@ -6,7 +6,7 @@ import play.api.Logger
 
 class Application @Inject() (cc: ControllerComponents) extends AbstractController(cc) {
 
-    val logger: Logger = Logger(this.getClass())
+    val logger: Logger = Logger(this.getClass)
 
     def index = Action {
         logger.info("index requested")
